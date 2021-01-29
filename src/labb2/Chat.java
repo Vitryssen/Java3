@@ -14,100 +14,137 @@ import javax.swing.border.Border;
  *
  * @author André
  */
-public class Chat {  
+public class Chat  implements ActionListener {  
 JFrame f;  
+int height = 500;
+int width = 500;
+JPanel showPanel = new JPanel();
+JPanel top = new JPanel(new GridBagLayout());
+public void actionPerformed(ActionEvent e){  
+        if(showPanel.isVisible())
+            showPanel.setVisible(false);
+        else
+            showPanel.setVisible(true);
+} 
 Chat(){  
     Border blackline;
     blackline = BorderFactory.createLineBorder(Color.black);
+    GridBagConstraints c = new GridBagConstraints();
     f=new JFrame();  
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     
+    JPanel friends = new JPanel();
+    friends.setLayout(new BoxLayout(friends, BoxLayout.Y_AXIS));
+    friends.setPreferredSize(new Dimension((int) (0.47*width),70));
+    friends.setBorder(blackline);
     
+    JPanel chat = new JPanel();
+    chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
+    chat.setPreferredSize(new Dimension((int) (0.47*width),70));
+    chat.setBorder(blackline);
     
-    JPanel top = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    top.setBorder(blackline);
+    JButton fileButton = new JButton("File");
+    c.fill = GridBagConstraints.HORIZONTAL;
+    c.weightx = 1;
+    c.gridx = 0;
+    c.gridy = 0;
+    c.anchor = GridBagConstraints.NORTHWEST;
+    top.add(fileButton , c);
+    //fileButton.setPreferredSize(new Dimension(100,40));
     
-    //Top bar with dropdown menu for file and show
-    //File contains option "Exit"
-    //Show containts checkbox for Private chat and Public chat
-    //File
-    JButton button = new JButton("File");
-    //top.add( Box.createHorizontalGlue() );
-    top.add(button);
-    button.setPreferredSize(new Dimension(100,40));
-    //top.add( Box.createHorizontalStrut(0) );
-    //Show
-    JButton show = new JButton("Show");
-    show.setBorder(blackline);
-    show.setPreferredSize(new Dimension(110,40));
-    top.add(show);
-    //top.add( Box.createHorizontalGlue() ); 
+    JButton showButton = new JButton("Show");
+    c.fill = GridBagConstraints.HORIZONTAL;
+    c.ipady = 0;       //reset to default
+    c.weighty = 1.0;   //request any extra vertical space
+    c.anchor = GridBagConstraints.PAGE_END; //bottom of space
+    c.insets = new Insets(0,0,0,300);  //top padding
+    c.gridx = 1;       //aligned with button 2
+    c.gridy = 0;       //third row
+    showButton.addActionListener(this);
+    top.add(showButton, c);
     
-    JPanel testing = new JPanel();
-    testing.setBorder(blackline);
-    //testing.setPreferredSize(new Dimension(110,40));
-    testing.setBounds(111,45,110,70);
-    testing.setVisible(false);
-    
-    JPanel testing2 = new JPanel();
-    testing2.setBorder(blackline);
-    //testing.setPreferredSize(new Dimension(110,40));
-    testing2.setBounds(6,45,100,40);
-    //testing.setVisible(false);
-    
-    JCheckBox checkbox1 = new JCheckBox("Private chat");
-    JCheckBox checkbox2 = new JCheckBox("Public chat");
- 
-    JButton checkbox3 = new JButton("Exit");
-    testing2.add(checkbox3, BorderLayout.WEST);
-    checkbox3.setPreferredSize(new Dimension(90,30));
-    testing2.setVisible(false);
-    button.addActionListener((ActionEvent e) -> {
-        if(testing2.isVisible())
-            testing2.setVisible(false);
-        else
-            testing2.setVisible(true);
+    top.addComponentListener(new ComponentAdapter() {
+        public void componentResized(ComponentEvent componentEvent) {
+            c.insets = new Insets(0,0,0, (int) (0.70*top.getWidth()));  //top padding
+            top.add(showButton, c);
+            System.out.println(top.getComponentCount());
+        }
     });
     
-    checkbox3.addActionListener((ActionEvent e) -> {
+    JButton exitButton = new JButton("Exit");
+  
+    showPanel = new JPanel();
+    showPanel.setBorder(blackline);
+    showPanel.setBounds(111,45,110,70);
+    //showPanel.setPreferredSize(new Dimension(110,70));
+    showPanel.setVisible(false);
+    
+    JPanel exitPanel = new JPanel();
+    exitPanel.setBorder(blackline);
+    //exitPanel.setPreferredSize(new Dimension(100,40));
+    exitPanel.setBounds(6,45,100,40);
+    exitPanel.add(exitButton, BorderLayout.WEST);
+    exitButton.setPreferredSize(new Dimension(90,30));
+    exitPanel.setVisible(false);
+    
+    JCheckBox privateButton = new JCheckBox("Private chat");
+    JCheckBox publicButton = new JCheckBox("Public chat");
+    
+// add to a container
+    showPanel.add(privateButton, BorderLayout.NORTH);
+    showPanel.add(publicButton, BorderLayout.SOUTH);
+    privateButton.setPreferredSize(new Dimension(100,20));
+    publicButton.setPreferredSize(new Dimension(100,21));
+
+    privateButton.addActionListener((ActionEvent e) -> {
+        if(publicButton.isSelected())
+            publicButton.setSelected(false);
+    });
+    publicButton.addActionListener((ActionEvent e) -> {
+        if(privateButton.isSelected())
+            privateButton.setSelected(false);
+    });
+    fileButton.addActionListener((ActionEvent e) -> {
+        if(exitPanel.isVisible())
+            exitPanel.setVisible(false);
+        else
+            exitPanel.setVisible(true);
+    });
+    
+    exitButton.addActionListener((ActionEvent e) -> {
         System.exit(0);
     });
     
-// add to a container
-    testing.add(checkbox1, BorderLayout.NORTH);
-    testing.add(checkbox2, BorderLayout.SOUTH);
-    checkbox1.setPreferredSize(new Dimension(100,20));
-    checkbox2.setPreferredSize(new Dimension(100,21));
-
-    show.addActionListener((ActionEvent e) -> {
-        if(testing.isVisible())
-            testing.setVisible(false);
-        else
-            testing.setVisible(true);
-    });
-    checkbox1.addActionListener((ActionEvent e) -> {
-        if(checkbox2.isSelected())
-            checkbox2.setSelected(false);
-    });
-    checkbox2.addActionListener((ActionEvent e) -> {
-        if(checkbox1.isSelected())
-            checkbox1.setSelected(false);
-    });
     
-    f.add(testing);
-    f.add(testing2);
-    JPanel bottom = new JPanel();
-    bottom.setBorder(blackline);
     
+    //--------------------------Chat------------------------------------
+    JTextArea textarea = new JTextArea("test\ntest2");
+    textarea.setLineWrap(true);
+    textarea.setWrapStyleWord(true);
+    chat.add(textarea, c);
+    
+    //--------------------------Chat------------------------------------
+    //--------------------------List------------------------------------
+    
+    
+    
+    //--------------------------List------------------------------------
     f.add(top, BorderLayout.NORTH);
-    //top.setPreferredSize(new Dimension(100,50));
+    f.add(showPanel);
+    f.add(exitPanel);
+    JPanel bottom = new JPanel(new GridLayout(0,2));
+    bottom.setBorder(blackline);
+    bottom.add(friends, BoxLayout.X_AXIS);
+    bottom.add(chat, BoxLayout.X_AXIS);
+    friends.setMaximumSize(new Dimension(500,500));
     f.add(bottom, BorderLayout.CENTER);
-    //bottom.setPreferredSize(new Dimension(100,100));
+    //top.getContentPane().setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
     f.pack();
-    f.setSize(500,500);
     f.setVisible(true);   
+    
 }  
 public static void main(String[] args) {  
-    new Chat();  
+    Chat test = new Chat();  
 }  
+
 } 
