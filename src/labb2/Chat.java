@@ -7,8 +7,11 @@ package labb2;
 
 import java.awt.*; 
 import java.awt.event.*; 
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import javax.swing.*; 
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -32,16 +35,6 @@ Chat(){
     GridBagConstraints c = new GridBagConstraints();
     f=new JFrame();  
     f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    
-    JPanel friends = new JPanel();
-    friends.setLayout(new BoxLayout(friends, BoxLayout.Y_AXIS));
-    friends.setPreferredSize(new Dimension((int) (0.47*width),70));
-    friends.setBorder(blackline);
-    
-    JPanel chat = new JPanel();
-    chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
-    chat.setPreferredSize(new Dimension((int) (0.47*width),70));
-    chat.setBorder(blackline);
     
     JButton fileButton = new JButton("File");
     c.fill = GridBagConstraints.HORIZONTAL;
@@ -115,30 +108,65 @@ Chat(){
         System.exit(0);
     });
     
-    
-    
     //--------------------------Chat------------------------------------
-    JTextArea textarea = new JTextArea("test\ntest2");
-    textarea.setLineWrap(true);
-    textarea.setWrapStyleWord(true);
-    chat.add(textarea, c);
+    JPanel chat = new JPanel();
+    chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
+    //chat.setBorder(blackline);
     
+    JTextArea chatText = new JTextArea("test\ntest2");
+    chatText.setLineWrap(true);
+    chatText.setWrapStyleWord(true);
+    chatText.setBorder(blackline);
+    chatText.setEditable(false);
+    
+    JLabel chatLabel = new JLabel("Chat with <>");
+    chatLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+   
+    chat.add(chatLabel);
+    chat.add(chatText);
     //--------------------------Chat------------------------------------
     //--------------------------List------------------------------------
     
+    JPanel friends = new JPanel();
+    friends.setLayout(new BoxLayout(friends, BoxLayout.Y_AXIS));
     
+    JTextArea friendArea = new JTextArea("Donut[AFK]\nMiles_Prower");
+    //friendArea.setBorder(blackline);
     
+    JLabel friendText = new JLabel("Friends list");
+    friendText.setAlignmentX(Component.CENTER_ALIGNMENT);
+    friendArea.setEditable(false);
+    friendArea.setBorder(blackline);
+    
+    friends.add(friendText);
+    friends.add(friendArea);
+    friends.setPreferredSize(new Dimension(50, 75)); //width determined by the longest name
     //--------------------------List------------------------------------
+    JPanel bottom = new JPanel();
+    
+    String text = "Miles_Prower"; //Create a loop and use user nicks to compare
+                                  //which has the longest name and use that one to set width
+    AffineTransform affinetransform = new AffineTransform();     
+    FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
+    Font font = new Font("Tahoma", Font.PLAIN, 12);
+    int textwidth = (int)(font.getStringBounds(text, frc).getWidth())+5;
+    
+    bottom.add(chat, BorderLayout.WEST);
+    chat.setPreferredSize(new Dimension(150, 140));
+    f.addComponentListener(new ComponentAdapter() {
+        public void componentResized(ComponentEvent componentEvent) {
+            chat.setPreferredSize(new Dimension(f.getWidth()-textwidth-50, f.getHeight()-70));
+            friends.setPreferredSize(new Dimension(textwidth,f.getHeight()-70));
+            friends.revalidate();
+            System.out.println(f.getHeight() + " "+f.getWidth());
+        }
+    });
+    bottom.add(friends, BorderLayout.EAST);
+    //------------------------Bottom------------------------------------
     f.add(top, BorderLayout.NORTH);
     f.add(showPanel);
     f.add(exitPanel);
-    JPanel bottom = new JPanel(new GridLayout(0,2));
-    bottom.setBorder(blackline);
-    bottom.add(friends, BoxLayout.X_AXIS);
-    bottom.add(chat, BoxLayout.X_AXIS);
-    friends.setMaximumSize(new Dimension(500,500));
     f.add(bottom, BorderLayout.CENTER);
-    //top.getContentPane().setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
     f.pack();
     f.setVisible(true);   
     
