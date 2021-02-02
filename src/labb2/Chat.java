@@ -119,7 +119,7 @@ Chat(){
     chatText.setBorder(blackline);
     chatText.setEditable(false);
     
-    JLabel chatLabel = new JLabel("Chat with <>");
+    JLabel chatLabel = new JLabel("Chat with");
     chatLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
    
     chat.add(chatLabel);
@@ -150,13 +150,13 @@ Chat(){
     FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
     Font font = new Font("Tahoma", Font.PLAIN, 12);
     int textwidth = (int)(font.getStringBounds(text, frc).getWidth())+5;
-    
+    //--------------------------Storlek på friendlist---------------------
     bottom.add(chat, BorderLayout.WEST);
     chat.setPreferredSize(new Dimension(150, 140));
     f.addComponentListener(new ComponentAdapter() {
         public void componentResized(ComponentEvent componentEvent) {
-            chat.setPreferredSize(new Dimension(f.getWidth()-textwidth-50, f.getHeight()-70));
-            friends.setPreferredSize(new Dimension(textwidth,f.getHeight()-70));
+            chat.setPreferredSize(new Dimension(f.getWidth()-textwidth-50, f.getHeight()-80));
+            friends.setPreferredSize(new Dimension(textwidth,f.getHeight()-80));
             friends.revalidate();
             System.out.println(f.getHeight() + " "+f.getWidth());
         }
