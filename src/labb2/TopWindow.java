@@ -56,6 +56,8 @@ public class TopWindow extends ComponentAdapter{
 
         JButton exitButton = new JButton("Exit");
 
+        //Change show and exitPanel to place and resize
+        //correctly with the file and show buttons
         showPanel.setBorder(blackline);
         showPanel.setBounds(111,45,110,70);
         showPanel.setVisible(false);
@@ -69,7 +71,7 @@ public class TopWindow extends ComponentAdapter{
         JCheckBox privateButton = new JCheckBox("Private chat");
         JCheckBox publicButton = new JCheckBox("Public chat");
 
-    // add to a container
+        // add to a container
         showPanel.add(privateButton, BorderLayout.NORTH);
         showPanel.add(publicButton, BorderLayout.SOUTH);
         privateButton.setPreferredSize(new Dimension(100,20));
