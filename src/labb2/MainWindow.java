@@ -6,6 +6,9 @@
 package labb2;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,8 +17,8 @@ import javax.swing.JPanel;
  * @author André
  */
 public class MainWindow {
-    JFrame f;  
-    public void MainWindow(){
+    private JFrame f;  
+    public MainWindow(){
         f=new JFrame();  
         TopWindow top = new TopWindow();
         ChatWindow chat = new ChatWindow();
@@ -32,13 +35,12 @@ public class MainWindow {
         f.add(bottom, BorderLayout.CENTER);
         f.pack();
         f.setVisible(true); 
-        /*f.addComponentListener(new ComponentAdapter() {
+        f.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
-                chat.setPreferredSize(new Dimension(f.getWidth()-textwidth-50, f.getHeight()-80));
-                friends.setPreferredSize(new Dimension(textwidth,f.getHeight()-80));
-                friends.revalidate();
-                System.out.println(f.getHeight() + " "+f.getWidth());
+                chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-friends.longestName()-50, f.getHeight()-80));
+                friends.getWindow().setPreferredSize(new Dimension(friends.longestName()+10,f.getHeight()-80));
+                System.out.println(f.getHeight() + " "+f.getWidth()+ " "+chat.getWindow().getWidth());
             }
-        });*/
+        });
     }
 }

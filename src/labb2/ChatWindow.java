@@ -23,27 +23,27 @@ import javax.swing.border.Border;
  * @author André
  */
 public class ChatWindow extends JPanel{
-    public void ChatWindow(){
-        Border blackline;
-        blackline = BorderFactory.createLineBorder(Color.black);
+    private JPanel chat = new JPanel();
+    JTextArea chatText = new JTextArea("test\ntest2");
+    JLabel chatLabel = new JLabel("Chat with");
+    public ChatWindow(){
+        Border blackline = BorderFactory.createLineBorder(Color.black);
         
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
         //chat.setBorder(blackline);
 
-        JTextArea chatText = new JTextArea("test\ntest2");
         chatText.setLineWrap(true);
         chatText.setWrapStyleWord(true);
         chatText.setBorder(blackline);
         chatText.setEditable(false);
 
-        JLabel chatLabel = new JLabel("Chat with");
         chatLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        add(chatLabel);
-        add(chatText);
-        setPreferredSize(new Dimension(150, 140));
+        chat.add(chatLabel);
+        chat.add(chatText);
+        chat.setPreferredSize(new Dimension(310, 140));
     }
     public JPanel getWindow(){
-        return this;
+        return chat;
     }
 }

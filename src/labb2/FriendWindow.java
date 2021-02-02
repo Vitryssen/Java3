@@ -24,7 +24,7 @@ import javax.swing.border.Border;
  */
 public class FriendWindow extends JPanel {
     public JPanel friends = new JPanel();
-    public void FriendWindow(){
+    public FriendWindow(){
         Border blackline;
         blackline = BorderFactory.createLineBorder(Color.black);
         friends.setLayout(new BoxLayout(friends, BoxLayout.Y_AXIS));
@@ -39,7 +39,7 @@ public class FriendWindow extends JPanel {
 
         friends.add(friendText);
         friends.add(friendArea);
-        friends.setPreferredSize(new Dimension(longestName(), 140)); //width determined by the longest name
+        friends.setPreferredSize(new Dimension(longestName()+10, 140)); //width determined by the longest name
     }
     public int longestName(){
         //--------------------------Chat------------------------------------
@@ -48,8 +48,7 @@ public class FriendWindow extends JPanel {
        AffineTransform affinetransform = new AffineTransform();     
        FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
        Font font = new Font("Tahoma", Font.PLAIN, 12);
-       int textwidth;
-       return textwidth = (int)(font.getStringBounds(text, frc).getWidth())+5;
+       return (int)(font.getStringBounds(text, frc).getWidth())+5;
     }
     public JPanel getWindow(){
         return friends;

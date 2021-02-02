@@ -19,21 +19,6 @@ import javax.swing.border.EmptyBorder;
  */
 public class Chat{  
     public static void main(String[] args) {  
-        JFrame f=new JFrame();  
-        TopWindow top = new TopWindow();
-        ChatWindow chat = new ChatWindow();
-        FriendWindow friends = new FriendWindow();
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        f.add(top.getWindow(), BorderLayout.NORTH);
-        f.add(top.getShowPanel());
-        f.add(top.getExitPanel());
-        //----------------------------------------
-        JPanel bottom = new JPanel();
-        bottom.add(new ChatWindow(), BorderLayout.WEST);
-        bottom.add(friends.getWindow(), BorderLayout.EAST);
-        //-----------------------------------------
-        f.add(bottom, BorderLayout.CENTER);
-        f.pack();
-        f.setVisible(true); 
+       new MainWindow();
     }  
 } 

@@ -26,14 +26,14 @@ import javax.swing.border.Border;
  *
  * @author André
  */
-public class TopWindow extends JPanel{
-    public JPanel showPanel = new JPanel();
-    public JPanel top = new JPanel(new GridBagLayout());
+public class TopWindow extends ComponentAdapter{
+    private JPanel showPanel = new JPanel();
+    private JPanel top = new JPanel(new GridBagLayout());
     public JButton showButton = new JButton("Show");
     public JButton fileButton = new JButton("File");
     public GridBagConstraints c = new GridBagConstraints();
-    public JPanel exitPanel = new JPanel();
-    public void createTopbar(){
+    private JPanel exitPanel = new JPanel();
+    public TopWindow(){
         Border blackline;
         blackline = BorderFactory.createLineBorder(Color.black);
 
@@ -93,17 +93,20 @@ public class TopWindow extends JPanel{
         exitButton.addActionListener((ActionEvent e) -> {
             System.exit(0);
         });
-    }
-    public void actionPerformed(ActionEvent e){  
-        if(showPanel.isVisible())
-            showPanel.setVisible(false);
-        else
-            showPanel.setVisible(true);
-    } 
-    public void componentResized(ComponentEvent componentEvent) {
-        c.insets = new Insets(0,0,0, (int) (0.70*top.getWidth()));  //top padding
-        top.add(showButton, c);
-        System.out.println(top.getComponentCount());
+        showButton.addActionListener((ActionEvent e) -> {
+            if(showPanel.isVisible())
+                showPanel.setVisible(false);
+            else
+                showPanel.setVisible(true);
+        });
+        top.addComponentListener(new ComponentAdapter() {
+        @Override
+            public void componentResized(ComponentEvent componentEvent) {
+                c.insets = new Insets(0,0,0, (int) (0.70*top.getWidth()));  //top padding
+                top.add(showButton, c);
+                System.out.println(top.getComponentCount());
+            }
+        });
     }
     public JPanel getWindow(){
         return top;
