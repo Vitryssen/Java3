@@ -33,6 +33,8 @@ public class TopWindow extends ComponentAdapter{
     public JButton fileButton = new JButton("File");
     public GridBagConstraints c = new GridBagConstraints();
     private JPanel exitPanel = new JPanel();
+    private JCheckBox privateButton = new JCheckBox("Private chat");
+    private JCheckBox publicButton = new JCheckBox("Public chat");
     public TopWindow(){
         Border blackline;
         blackline = BorderFactory.createLineBorder(Color.black);
@@ -66,21 +68,10 @@ public class TopWindow extends ComponentAdapter{
         exitButton.setPreferredSize(new Dimension(90,30));
         exitPanel.setVisible(false);
 
-        JCheckBox privateButton = new JCheckBox("Private chat");
-        JCheckBox publicButton = new JCheckBox("Public chat");
-
         // add to a container
         showPanel.add(privateButton, BorderLayout.NORTH);
         showPanel.add(publicButton, BorderLayout.SOUTH);
-
-        privateButton.addActionListener((ActionEvent e) -> {
-            if(publicButton.isSelected())
-                publicButton.setSelected(false);
-        });
-        publicButton.addActionListener((ActionEvent e) -> {
-            if(privateButton.isSelected())
-                privateButton.setSelected(false);
-        });
+        
         fileButton.addActionListener((ActionEvent e) -> {
             if(exitPanel.isVisible())
                 exitPanel.setVisible(false);
@@ -108,8 +99,6 @@ public class TopWindow extends ComponentAdapter{
                 publicButton.setPreferredSize(new Dimension(showPanel.getWidth()-5,15));
                 exitPanel.repaint();
                 showPanel.repaint();
-                //System.out.println(fileButton.getLocation()+ " "+fileButton.getWidth()+ " "+fileButton.getHeight());
-                //System.out.println(top.getComponentCount());
             }
         });
     }
@@ -121,5 +110,11 @@ public class TopWindow extends ComponentAdapter{
     }
     public JPanel getExitPanel(){
         return exitPanel;
+    }
+    public JCheckBox getPublicButton(){
+        return publicButton;
+    }
+    public JCheckBox getPrivateButton(){
+        return privateButton;
     }
 }

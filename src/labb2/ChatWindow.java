@@ -21,13 +21,12 @@ import javax.swing.border.Border;
  */
 public class ChatWindow extends JPanel{
     private JPanel chat = new JPanel();
-    JTextArea chatText = new JTextArea("test\ntest2");
-    JLabel chatLabel = new JLabel("Chat with");
+    private JTextArea chatText = new JTextArea("");
+    private JLabel chatLabel = new JLabel("Chat with");
     public ChatWindow(){
         Border blackline = BorderFactory.createLineBorder(Color.black);
         
         chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
-        //chat.setBorder(blackline);
 
         chatText.setLineWrap(true);
         chatText.setWrapStyleWord(true);
@@ -42,5 +41,8 @@ public class ChatWindow extends JPanel{
     }
     public JPanel getWindow(){
         return chat;
+    }
+    public JTextArea getChatText(){
+        return chatText;
     }
 }
