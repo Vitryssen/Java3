@@ -6,8 +6,6 @@
 package labb2;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
@@ -15,13 +13,10 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
-import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 /**
  *
@@ -89,7 +84,7 @@ public class MainWindow {
                 chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-friends.longestName()-50, f.getHeight()-80));
                 friends.getWindow().setPreferredSize(new Dimension(friends.longestName()+10,f.getHeight()-80));
                 f.repaint();
-                System.out.println(f.getHeight() + " "+f.getWidth()+ " "+chat.getWindow().getWidth());
+                //System.out.println(f.getHeight() + " "+f.getWidth()+ " "+chat.getWindow().getWidth());
             }
         });
     }
