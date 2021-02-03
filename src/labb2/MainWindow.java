@@ -25,6 +25,11 @@ public class MainWindow {
         FriendWindow friends = new FriendWindow();
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(top.getWindow(), BorderLayout.NORTH);
+        
+        //Set bounds for panel with exit and chat buttons
+        top.getShowPanel().setBounds(111,45,110,70);
+        top.getExitPanel().setBounds(6,45,100,40);
+        //----------------------------------------
         f.add(top.getShowPanel());
         f.add(top.getExitPanel());
         //----------------------------------------

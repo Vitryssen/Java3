@@ -59,11 +59,9 @@ public class TopWindow extends ComponentAdapter{
         //Change show and exitPanel to place and resize
         //correctly with the file and show buttons
         showPanel.setBorder(blackline);
-        showPanel.setBounds(111,45,110,70);
         showPanel.setVisible(false);
 
         exitPanel.setBorder(blackline);
-        exitPanel.setBounds(6,45,100,40);
         exitPanel.add(exitButton, BorderLayout.WEST);
         exitButton.setPreferredSize(new Dimension(90,30));
         exitPanel.setVisible(false);
@@ -74,8 +72,6 @@ public class TopWindow extends ComponentAdapter{
         // add to a container
         showPanel.add(privateButton, BorderLayout.NORTH);
         showPanel.add(publicButton, BorderLayout.SOUTH);
-        privateButton.setPreferredSize(new Dimension(100,20));
-        publicButton.setPreferredSize(new Dimension(100,21));
 
         privateButton.addActionListener((ActionEvent e) -> {
             if(publicButton.isSelected())
@@ -106,7 +102,14 @@ public class TopWindow extends ComponentAdapter{
             public void componentResized(ComponentEvent componentEvent) {
                 c.insets = new Insets(0,0,0, (int) (0.70*top.getWidth()));  //top padding
                 top.add(showButton, c);
-                System.out.println(top.getComponentCount());
+                exitPanel.setBounds(fileButton.getLocation().x, fileButton.getLocation().y+fileButton.getHeight(), fileButton.getWidth(), 50);
+                showPanel.setBounds(showButton.getLocation().x, showButton.getLocation().y+showButton.getHeight(), showButton.getWidth(), 50);
+                privateButton.setPreferredSize(new Dimension(showPanel.getWidth()-5,15));
+                publicButton.setPreferredSize(new Dimension(showPanel.getWidth()-5,15));
+                exitPanel.repaint();
+                showPanel.repaint();
+                //System.out.println(fileButton.getLocation()+ " "+fileButton.getWidth()+ " "+fileButton.getHeight());
+                //System.out.println(top.getComponentCount());
             }
         });
     }
