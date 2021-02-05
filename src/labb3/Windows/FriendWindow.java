@@ -7,22 +7,20 @@ package labb3.Windows;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import labb3.FriendsReader;
+import labb3.ChatDOA;
+import labb3.ChatDOAImp;
 
 /**
  *
  * @author André
  */
 public class FriendWindow extends JPanel {
-    private FriendsReader friendList = new FriendsReader();
+    ChatDOA chatDao = new ChatDOAImp();
     private JPanel friends = new JPanel();
     private JPanel namePanel = new JPanel();
     public FriendWindow(){
@@ -37,27 +35,10 @@ public class FriendWindow extends JPanel {
         
         friends.add(friendText);
         friends.add(namePanel);
-        friends.setPreferredSize(new Dimension(longestName()+10, 140)); //width determined by the longest name
-    }
-    public int longestName(){
-        //--------------------------Chat------------------------------------
-        int previous = 0;
-        for(int i = 0; i < friendList.getFriendList().size(); i++){
-            //System.out.println(friendList.getFriendList().get(i).getNick());
-            String text = friendList.getFriendList().get(i).getNick();
-            AffineTransform affinetransform = new AffineTransform();     
-            FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
-            Font font = new Font("Tahoma", Font.PLAIN, 12);
-            if( ((int)(font.getStringBounds(text, frc).getWidth())+5) > previous)
-                previous = (int)(font.getStringBounds(text, frc).getWidth())+5;
-        }
-        return previous;
+        friends.setPreferredSize(new Dimension(chatDao.getLongestNick()+10, 140)); //width determined by the longest name
     }
     public JPanel getWindow(){
         return friends;
-    }
-    public FriendsReader getFriendList(){
-        return friendList;
     }
     public JPanel getNamePanel(){
         return namePanel;

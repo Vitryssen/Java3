@@ -17,6 +17,8 @@ import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import labb3.ChatDOA;
+import labb3.ChatDOAImp;
 import labb3.DataStructures.Chat;
 import labb3.LogReader;
 import labb3.DataStructures.Message;
@@ -26,11 +28,10 @@ import labb3.DataStructures.Message;
  */
 public class MainWindow {
     private JFrame f;  
-    LogReader publicChat = new LogReader("Eurakarte");
-    LogReader privateChat;
-    TopWindow top = new TopWindow();
-    ChatWindow chat = new ChatWindow();
-    FriendWindow friends = new FriendWindow();
+    private ChatDOA chatDao = new ChatDOAImp();
+    private TopWindow top = new TopWindow();
+    private ChatWindow chat = new ChatWindow();
+    private FriendWindow friends = new FriendWindow();
     boolean privateMode = false;
     public MainWindow(){
         f=new JFrame();  
@@ -45,11 +46,9 @@ public class MainWindow {
                 privateButton.setSelected(false);
             }
             if(publicButton.isSelected()){
-                Chat test = new Chat("Eurakarte");
-                List<Message> hej = test.getMessages();
-                for(int i = 0; i < hej.size(); i++){
-                    chat.getChatText().append(hej.get(i).getAuthor().getNick()+hej.get(i).getAuthor().getTag()+": "+hej.get(i).getMessage());
-                    chat.getChatText().append("\n");
+                List<String> messages = chatDao.getPublicChat();
+                for(int i = 0; i < messages.size(); i++){
+                    chat.getChatText().append(messages.get(i));
                 }
             }
             privateMode = false;
@@ -76,21 +75,21 @@ public class MainWindow {
         bottom.add(chat.getWindow(), BorderLayout.WEST);
         bottom.add(friends.getWindow(), BorderLayout.EAST);
         //------------------------------------------
-        getPrivateChat();
+        //getPrivateChat();
         //-----------------------------------------
         f.add(bottom, BorderLayout.CENTER);
         f.pack();
         f.setVisible(true); 
         f.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
-                chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-friends.longestName()-50, f.getHeight()-80));
-                friends.getWindow().setPreferredSize(new Dimension(friends.longestName()+10,f.getHeight()-80));
+                chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-50, f.getHeight()-80));
+                friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+10,f.getHeight()-80));
                 f.repaint();
                 //System.out.println(f.getHeight() + " "+f.getWidth()+ " "+chat.getWindow().getWidth());
             }
         });
     }
-    private void getPrivateChat(){
+    /*private void getPrivateChat(){
         for(int i = 0; i < friends.getFriendList().getFriendList().size(); i++){
             String currentName = friends.getFriendList().getFriendList().get(i).getNick()+friends.getFriendList().getFriendList().get(i).getTag();
             JLabel nameLabel = new JLabel(currentName);
@@ -112,5 +111,5 @@ public class MainWindow {
             });
             friends.getNamePanel().add(nameLabel, BorderLayout.WEST);
         }
-    }
+    }*/
 }
