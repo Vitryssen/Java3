@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package labb2;
+package labb3.Windows;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -16,6 +16,10 @@ import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import labb3.DataStructures.Chat;
+import labb3.LogReader;
+import labb3.DataStructures.Message;
 /**
  *
  * @author André
@@ -36,17 +40,17 @@ public class MainWindow {
         JCheckBox publicButton = top.getPublicButton();
         JCheckBox privateButton = top.getPrivateButton();
         publicButton.addActionListener((ActionEvent e) -> {
+            chat.getChatText().setText(""); 
             if(privateButton.isSelected()){
                 privateButton.setSelected(false);
             }
             if(publicButton.isSelected()){
-                for(int i = 0; i < publicChat.getOrgHistory().size(); i++){
-                    chat.getChatText().append(publicChat.getOrgHistory().get(i));
+                Chat test = new Chat("Eurakarte");
+                List<Message> hej = test.getMessages();
+                for(int i = 0; i < hej.size(); i++){
+                    chat.getChatText().append(hej.get(i).getAuthor().getNick()+hej.get(i).getAuthor().getTag()+": "+hej.get(i).getMessage());
                     chat.getChatText().append("\n");
                 }
-            }
-            else{
-               chat.getChatText().setText(""); 
             }
             privateMode = false;
             f.repaint();
@@ -96,7 +100,7 @@ public class MainWindow {
                     if(privateMode == true){
                         //System.out.println(me.getComponent().getName());
                         LogReader privateChat = new LogReader(me.getComponent().getName());  
-                        List<String> history = privateChat.getOrgHistory();
+                        List<String> history = privateChat.getUnformatted();
                         chat.getChatText().setText("");
                         for(int i = 0; i < history.size(); i++){
                             chat.getChatText().append(history.get(i));

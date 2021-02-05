@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package labb2;
+package labb3;
 
+import labb3.DataStructures.Friend;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -55,14 +56,6 @@ public class FriendsReader {
         catch (IOException ex) 
         {
             System.out.println(ex);
-        }
-    }
-    public void GetFriends(){
-        for(int i = 0; i < friends.size(); i++){
-            System.out.println(friends.get(i).getNick()+" "+friends.get(i).getTag());
-            System.out.println(friends.get(i).getName());
-            System.out.println(friends.get(i).getIp());
-            System.out.println(friends.get(i).getImage());
         }
     }
     public List<Friend> getFriendList(){

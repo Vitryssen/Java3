@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package labb2;
+package labb3.DataStructures;
 
 /**
  *
@@ -15,12 +15,14 @@ public class Friend {
     private String ip;
     private String image;
     private String tag;
-    public Friend(String newNick, String newName, String newIp, String newImage, String newTag){
+    private String lastIP;
+    public Friend(String newNick, String newName, String newIp, String newImage, String newTag, String newIP){
         this.nickname = newNick;
         this.fullname = newName;
         this.ip = newIp;
         this.image = newImage;
         this.tag = newTag;
+        this.lastIP = newIP;
     }
     public Friend(){
         this.nickname = "";
@@ -28,7 +30,11 @@ public class Friend {
         this.ip = "";
         this.image = "";
         this.tag = "";
+        this.lastIP = "";
     }
+    /*public Chat getChat(){
+        
+    }*/
     //
     //Setters
     public void setNick(String newNick){
@@ -45,6 +51,9 @@ public class Friend {
     }
     public void setTag(String newTag){
         this.tag = newTag;
+    }
+    public void setIP(String newIP){
+        this.lastIP = newIP;
     }
     //Getters
     public String getNick(){

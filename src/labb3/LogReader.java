@@ -3,11 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package labb2;
+package labb3;
 
+import labb3.DataStructures.Friend;
+import labb3.DataStructures.Message;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 
@@ -16,8 +17,8 @@ import java.util.List;
  * @author André
  */
 public class LogReader {
-    private List<String> lines = new ArrayList<String>();
-    private List<String> orgLines = new ArrayList<String>();
+    private List<Message> lines = new ArrayList<>();
+    private List<String> orgLines = new ArrayList<>();
     private String workingPath;
     public LogReader(String fileUrl){
         try
@@ -38,29 +39,28 @@ public class LogReader {
                 else{
                     username = line.substring(1, line.indexOf('>'));
                 }
-                lines.add(username);
-                lines.add(tag);
-                lines.add(text);
+                
+                Friend newFriend = new Friend();
+                newFriend.setNick(username);
+                newFriend.setTag(tag);
+                Message newMsg = new Message(newFriend, text);
+                lines.add(newMsg);
                 orgLines.add(line);
             }
         }
         catch (FileNotFoundException ex) 
         {
             orgLines.add("Not found");
-            lines.add("Not found");
         } 
         catch (IOException ex) 
         {
             System.out.println(ex);
         }
     }
-    public void getHistory(){
-        Iterator<String> test = lines.iterator();
-        while(test.hasNext()){
-            System.out.println(test.next());
-        }
+    public List<Message> getFormatted(){
+        return lines;
     }
-    public List<String> getOrgHistory(){
+    public List<String> getUnformatted(){
         return orgLines;
     }
 }
