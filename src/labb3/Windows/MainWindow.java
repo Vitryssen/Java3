@@ -19,9 +19,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import labb3.ChatDOA;
 import labb3.ChatDOAImp;
-import labb3.DataStructures.Chat;
+import labb3.DataStructures.Friend;
 import labb3.LogReader;
-import labb3.DataStructures.Message;
 /**
  *
  * @author André
@@ -63,7 +62,7 @@ public class MainWindow {
             f.repaint();
         });
         
-        //------------------------------------------
+        //----------------------------------------
         //Set bounds for panel with exit and chat buttons
         top.getShowPanel().setBounds(111,45,110,70);
         top.getExitPanel().setBounds(6,45,100,40);
@@ -71,11 +70,12 @@ public class MainWindow {
         f.add(top.getShowPanel());
         f.add(top.getExitPanel());
         //----------------------------------------
+        populateFriendlist();
+        addClickListiner();
+        //----------------------------------------
         JPanel bottom = new JPanel();
         bottom.add(chat.getWindow(), BorderLayout.WEST);
         bottom.add(friends.getWindow(), BorderLayout.EAST);
-        //------------------------------------------
-        //getPrivateChat();
         //-----------------------------------------
         f.add(bottom, BorderLayout.CENTER);
         f.pack();
@@ -89,12 +89,18 @@ public class MainWindow {
             }
         });
     }
-    /*private void getPrivateChat(){
-        for(int i = 0; i < friends.getFriendList().getFriendList().size(); i++){
-            String currentName = friends.getFriendList().getFriendList().get(i).getNick()+friends.getFriendList().getFriendList().get(i).getTag();
+    private void populateFriendlist(){
+        for(int i = 0; i < chatDao.getAllFriends().size(); i++){
+            Friend currentFriend = chatDao.getAllFriends().get(i);
+            String currentName = currentFriend.getNick()+currentFriend.getTag();
             JLabel nameLabel = new JLabel(currentName);
             nameLabel.setName(currentName);
-            nameLabel.addMouseListener(new MouseAdapter() { 
+            friends.getNamePanel().add(nameLabel, BorderLayout.WEST);
+        }
+    }
+    private void addClickListiner(){
+        for(int i = 0; i < friends.getNamePanel().getComponentCount(); i++){
+            friends.getNamePanel().getComponent(i).addMouseListener(new MouseAdapter() { 
                 public void mousePressed(MouseEvent me) { 
                     if(privateMode == true){
                         //System.out.println(me.getComponent().getName());
@@ -109,7 +115,6 @@ public class MainWindow {
                     }
                 } 
             });
-            friends.getNamePanel().add(nameLabel, BorderLayout.WEST);
         }
-    }*/
+    }
 }

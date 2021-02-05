@@ -22,7 +22,6 @@ public class ChatDOAImp implements ChatDOA{
     private String chatUser = "Eurakarte";
     private List<Friend> friends;
     private List<Message> msgs;
-    private List<Friend> allFriends;
     private Chat currentChat;
     public ChatDOAImp(){
         FriendsReader loadFriends = new FriendsReader();
@@ -33,7 +32,7 @@ public class ChatDOAImp implements ChatDOA{
     }
     @Override
     public List<Friend> getAllFriends(){
-        return allFriends;
+        return friends;
     }
     @Override
     public int getLongestNick(){
