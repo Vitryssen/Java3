@@ -5,17 +5,22 @@
  */
 package labb3.Windows;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
+import labb3.ChatDAOImp;
+import labb3.ChatDAO;
 
 /**
  *
@@ -26,27 +31,32 @@ public class ChatWindow extends JPanel{
     private final JTextArea chatText = new JTextArea("");
     private final JPanel messagePanel = new JPanel();
     private final JLabel chatLabel = new JLabel("Not chatting");
+    private final JTextField messageInput = new JTextField();
+    private final JButton sendChat = new JButton("Send");
     public ChatWindow(){
         Border blackline = BorderFactory.createLineBorder(Color.black);
         
-        chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
+        chat.setLayout(new BorderLayout());
 
         chatText.setLineWrap(true);
         chatText.setWrapStyleWord(true);
         chatText.setBorder(blackline);
         chatText.setEditable(false);
+        chatText.setText("\n\n\n\n\n\n");
+        chat.add(chatLabel, BorderLayout.NORTH); 
         
         JScrollPane scroll = new JScrollPane(chatText);
-        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        
-        chatLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        messagePanel.setBorder(blackline);
-        
-        chat.add(chatLabel); 
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
         chat.add(scroll);
-        chat.add(messagePanel);
-        chat.setPreferredSize(new Dimension(310, 140));
+        
+        JPanel messagePanel = new JPanel();
+        messagePanel.add(messageInput, BorderLayout.WEST);
+        messageInput.setPreferredSize(new Dimension(200, 20));
+        messagePanel.add(sendChat, BorderLayout.EAST);
+        chat.add(messagePanel, BorderLayout.SOUTH);
+    }
+    public JTextField getMessageInput(){
+        return messageInput;
     }
     public JPanel getWindow(){
         return chat;
@@ -56,5 +66,11 @@ public class ChatWindow extends JPanel{
     }
     public JLabel getChatLabel(){
         return chatLabel;
+    }
+    public JPanel getMessagePanel(){
+        return messagePanel;
+    }
+    public JButton getMessageButton(){
+        return sendChat;
     }
 }

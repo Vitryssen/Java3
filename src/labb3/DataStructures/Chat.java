@@ -19,10 +19,14 @@ public class Chat {
       this.author = nickname;
     }
     public void addMessage(Message msg){
-        new LogWriter(author, msg.getMessage());
+        new LogWriter(msg);
     }
     public List<Message> getMessages(){
         LogReader reader = new LogReader(author);
+        return reader.getFormatted();
+    }
+    public List<Message> getMessages(String privateName){
+        LogReader reader = new LogReader(privateName);
         return reader.getFormatted();
     }
 }

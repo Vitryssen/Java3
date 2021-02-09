@@ -18,12 +18,14 @@ import labb3.DataStructures.Message;
  *
  * @author André
  */
-public class ChatDOAImp implements ChatDOA{
+public class ChatDAOImp implements ChatDAO{
     private String chatUser = "Eurakarte";
+    private String chattingWith = "";
     private List<Friend> friends;
     private List<Message> msgs;
     private Chat currentChat;
-    public ChatDOAImp(){
+    public boolean privateMode = false;
+    public ChatDAOImp(){
         FriendsReader loadFriends = new FriendsReader();
         friends = loadFriends.getFriendList();
         
@@ -33,6 +35,10 @@ public class ChatDOAImp implements ChatDOA{
     @Override
     public List<Friend> getAllFriends(){
         return friends;
+    }
+    @Override
+    public void setPrivateMode(boolean newMode){
+        privateMode = newMode;
     }
     @Override
     public int getLongestNick(){
@@ -52,11 +58,11 @@ public class ChatDOAImp implements ChatDOA{
     @Override
     public List<String> getPublicChat() {
         currentChat = new Chat(chatUser);
-        List<String> returnList = new ArrayList<String>();
-        List<Message> oldList = currentChat.getMessages();
-        for(int i = 0; i < oldList.size(); i++){
-            Friend author = oldList.get(i).getAuthor();
-            String newString = "<"+author.getNick()+author.getTag()+"> "+oldList.get(i).getMessage()+"\n";
+        List<String> returnList = new ArrayList<>();
+        msgs = currentChat.getMessages();
+        for(int i = 0; i < msgs.size(); i++){
+            Friend author = msgs.get(i).getAuthor();
+            String newString = "<"+author.getNick()+author.getTag()+"> "+msgs.get(i).getMessage()+"\n";
             returnList.add(newString);
         }
         return returnList;
@@ -78,12 +84,38 @@ public class ChatDOAImp implements ChatDOA{
     }
 
     @Override
-    public List<String> getPrivateChat(String nick) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setPrivateChat(String nick) {
+        currentChat = new Chat(chatUser);
+        msgs = currentChat.getMessages(nick);
     }
-
+    @Override
+    public List<String> getPrivateChat(String nick) { 
+        List<String> returnList = new ArrayList<>();
+        for(int i = 0; i < msgs.size(); i++){
+            Friend author = msgs.get(i).getAuthor();
+            String newString = "<"+author.getNick()+author.getTag()+"> "+msgs.get(i).getMessage()+"\n";
+            returnList.add(newString);
+        }
+        return returnList;
+    }
     @Override
     public void setChatUser(String newUser) {
         this.chatUser = newUser;
+    }
+    @Override
+    public void sendMessage(String msg){
+        Friend currentFriend = new Friend();
+        currentFriend.setNick(chatUser);
+        Message newMsg = new Message(currentFriend, msg);
+        new LogWriter(newMsg);
+        msgs.add(newMsg);
+    }
+    @Override
+    public void setReciever(String newReciever){
+        chattingWith = newReciever;
+    }
+    @Override
+    public String getReceiever(){
+        return chattingWith;
     }
 }

@@ -5,6 +5,7 @@
  */
 package labb3.Windows;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.BorderFactory;
@@ -12,30 +13,29 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
-import labb3.ChatDOA;
-import labb3.ChatDOAImp;
+import labb3.ChatDAOImp;
+import labb3.ChatDAO;
 
 /**
  *
  * @author André
  */
 public class FriendWindow extends JPanel {
-    ChatDOA chatDao = new ChatDOAImp();
+    ChatDAO chatDao = new ChatDAOImp();
     private JPanel friends = new JPanel();
     private JPanel namePanel = new JPanel();
     public FriendWindow(){
         Border blackline;
         blackline = BorderFactory.createLineBorder(Color.black);
-        friends.setLayout(new BoxLayout(friends, BoxLayout.Y_AXIS));
+        friends.setLayout(new BorderLayout());
         
         namePanel.setBorder(blackline);
         namePanel.setBackground(Color.white);
         JLabel friendText = new JLabel("Friends list");
-        friendText.setAlignmentX(CENTER_ALIGNMENT);
         
-        friends.add(friendText);
-        friends.add(namePanel);
-        friends.setPreferredSize(new Dimension(chatDao.getLongestNick()+10, 140)); //width determined by the longest name
+        friends.add(friendText, BorderLayout.NORTH);
+        friends.add(namePanel, BorderLayout.CENTER);
+        friends.setPreferredSize(new Dimension(chatDao.getLongestNick()+10, 200)); //width determined by the longest name
     }
     public JPanel getWindow(){
         return friends;

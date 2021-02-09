@@ -32,10 +32,6 @@ public class Friend {
         this.tag = "";
         this.lastIP = "";
     }
-    /*public Chat getChat(){
-        
-    }*/
-    //
     //Setters
     public void setNick(String newNick){
         this.nickname = newNick;
