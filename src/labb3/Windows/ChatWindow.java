@@ -12,7 +12,9 @@ import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
 /**
@@ -20,9 +22,10 @@ import javax.swing.border.Border;
  * @author André
  */
 public class ChatWindow extends JPanel{
-    private JPanel chat = new JPanel();
-    private JTextArea chatText = new JTextArea("");
-    private JLabel chatLabel = new JLabel("Chat with");
+    private final JPanel chat = new JPanel();
+    private final JTextArea chatText = new JTextArea("");
+    private final JPanel messagePanel = new JPanel();
+    private final JLabel chatLabel = new JLabel("Not chatting");
     public ChatWindow(){
         Border blackline = BorderFactory.createLineBorder(Color.black);
         
@@ -32,11 +35,17 @@ public class ChatWindow extends JPanel{
         chatText.setWrapStyleWord(true);
         chatText.setBorder(blackline);
         chatText.setEditable(false);
-
+        
+        JScrollPane scroll = new JScrollPane(chatText);
+        scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        
         chatLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        chat.add(chatLabel);
-        chat.add(chatText);
+        messagePanel.setBorder(blackline);
+        
+        chat.add(chatLabel); 
+        chat.add(scroll);
+        chat.add(messagePanel);
         chat.setPreferredSize(new Dimension(310, 140));
     }
     public JPanel getWindow(){
@@ -44,5 +53,8 @@ public class ChatWindow extends JPanel{
     }
     public JTextArea getChatText(){
         return chatText;
+    }
+    public JLabel getChatLabel(){
+        return chatLabel;
     }
 }

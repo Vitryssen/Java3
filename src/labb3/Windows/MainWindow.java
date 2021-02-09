@@ -41,6 +41,7 @@ public class MainWindow {
         JCheckBox privateButton = top.getPrivateButton();
         publicButton.addActionListener((ActionEvent e) -> {
             chat.getChatText().setText(""); 
+            chat.getChatLabel().setText("Chatting publicly");
             if(privateButton.isSelected()){
                 privateButton.setSelected(false);
             }
@@ -107,6 +108,7 @@ public class MainWindow {
                         LogReader privateChat = new LogReader(me.getComponent().getName());  
                         List<String> history = privateChat.getUnformatted();
                         chat.getChatText().setText("");
+                        chat.getChatLabel().setText("Chatting with "+me.getComponent().getName());
                         for(int i = 0; i < history.size(); i++){
                             chat.getChatText().append(history.get(i));
                             chat.getChatText().append("\n");
