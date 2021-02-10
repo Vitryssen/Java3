@@ -16,6 +16,8 @@ public interface ChatDAO {
     public List<Friend> getAllFriends();
     public List<String> getPublicChat();
     public List<String> getPrivateChat(String nick);
+    public int getFriend(String name);
+    public void changeFriendAttr(String user, String attribute, String newValue);
     public int getLongestNick();
     public void setChatUser(String newUser);
     public void sendMessage(String msg);

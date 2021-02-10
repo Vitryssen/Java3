@@ -5,6 +5,8 @@
  */
 package labb3;
 
+import Readers.FriendsReader;
+import Readers.LogReader;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
@@ -34,6 +36,33 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public List<Friend> getAllFriends(){
         return friends;
+    }
+    @Override
+    public int getFriend(String name){
+        for(int i = 0; i < friends.size(); i++){
+            System.out.println(friends.get(i).getNick());
+            if(friends.get(i).getNick() == name){
+                return i;
+            }
+        }
+        return -1; //returns -1 if no match found
+    }
+    @Override
+    public void changeFriendAttr(String user, String attribute, String newValue){
+        int friendIndex = getFriend(user);
+        if(friendIndex != -1){
+            switch(attribute) {
+                case "Nickname":
+                    friends.get(friendIndex).setNick(newValue);
+                    break;
+                case "Fullname":
+                    friends.get(friendIndex).setName(newValue);
+                    break;
+                case "Image":
+                    friends.get(friendIndex).setImage(newValue);
+                    break;
+              }
+        }
     }
     @Override
     public void setPrivateMode(boolean newMode){

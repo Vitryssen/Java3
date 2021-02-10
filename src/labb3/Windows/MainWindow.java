@@ -23,6 +23,17 @@ import javax.swing.border.Border;
 import labb3.ChatDAOImp;
 import labb3.DataStructures.Friend;
 import labb3.ChatDAO;
+
+
+import java.awt.Color;
+import java.awt.Dimension;
+
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.UIManager;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.SwingConstants;
 /**
  *
  * @author André
@@ -92,6 +103,20 @@ public class MainWindow {
             } 
         });
     }
+    private void popUp(String user){
+        String[] options = {"Nickname","Fullname","Image"};
+        String attr = (String)JOptionPane.showInputDialog(null, "What attribute do you want to change?", 
+                "Change attribute for "+user, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
+        if(attr != null){
+            String value = JOptionPane.showInputDialog(null, attr+": ", 
+                    "New value for "+attr, JOptionPane.INFORMATION_MESSAGE);
+            chatDao.changeFriendAttr(user, attr, value);
+        }
+        populateFriendlist(); //Delete friend labels before adding new ones
+        
+        //m value
+        //n property
+    }
     private void populateFriendlist(){
         for(int i = 0; i < chatDao.getAllFriends().size(); i++){
             Friend currentFriend = chatDao.getAllFriends().get(i);
@@ -106,7 +131,7 @@ public class MainWindow {
             friends.getNamePanel().getComponent(i).addMouseListener(new MouseAdapter() { 
                 public void mousePressed(MouseEvent me) { 
                     if(me.getButton() == 3){
-                        System.out.println("Ändra");
+                        popUp(me.getComponent().getName());
                     }
                     else if(privateMode == true && me.getButton() == 1){
                         chatDao.setReciever(me.getComponent().getName());
