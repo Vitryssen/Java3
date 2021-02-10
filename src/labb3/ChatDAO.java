@@ -6,9 +6,7 @@
 package labb3;
 
 import java.util.List;
-import labb3.DataStructures.Chat;
 import labb3.DataStructures.Friend;
-import labb3.DataStructures.Message;
 
 /**
  *
@@ -18,14 +16,13 @@ public interface ChatDAO {
     public List<Friend> getAllFriends();
     public List<String> getPublicChat();
     public List<String> getPrivateChat(String nick);
-    public Friend getFriend();
-    public Message getMessage();
-    public Chat getChat();
+    public int getFriend(String name);
+    public void changeFriendAttr(String user, String attribute, String newValue);
     public int getLongestNick();
     public void setChatUser(String newUser);
     public void sendMessage(String msg);
     public void setReciever(String newReciever);
     public void setPrivateMode(boolean newMode);
     public String getReceiever();
-    public void setPrivateChat(String nick);
+    public String getChatUser();
 }

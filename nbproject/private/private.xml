@@ -2,6 +2,21 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+<<<<<<< HEAD
         <group/>
+=======
+        <group>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/DataStructures/Chat.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/LogWriter.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/Windows/MainWindow.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/DataStructures/Message.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/DataStructures/Friend.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/LogReader.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/Windows/FriendWindow.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/ChatDAO.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/Windows/ChatWindow.java</file>
+            <file>file:/C:/Users/André/Desktop/git/labb3/src/labb3/ChatDAOImp.java</file>
+        </group>
+>>>>>>> afccdecd1126556850b8d49c28539482738ace45
     </open-files>
 </project-private>
