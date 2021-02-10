@@ -65,26 +65,6 @@ public class ChatDAOImp implements ChatDAO{
         }
         return returnList;
     }
-
-    @Override
-    public Friend getFriend() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Message getMessage() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Chat getChat() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setPrivateChat(String nick) {
-        msgs = allChats.getMessages(nick);
-    }
     @Override
     public List<String> getPrivateChat(String nick) { 
         List<String> returnList = new ArrayList<>();

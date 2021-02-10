@@ -5,7 +5,6 @@
  */
 package labb3;
 
-import labb3.DataStructures.Chat;
 import labb3.Windows.MainWindow;
 
 /**
