@@ -28,4 +28,5 @@ public interface ChatDAO {
     public void setPrivateMode(boolean newMode);
     public String getReceiever();
     public void setPrivateChat(String nick);
+    public String getChatUser();
 }

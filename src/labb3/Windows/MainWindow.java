@@ -15,16 +15,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.Border;
 import labb3.ChatDAOImp;
 import labb3.DataStructures.Friend;
-import labb3.LogReader;
 import labb3.ChatDAO;
 /**
  *
@@ -68,20 +67,29 @@ public class MainWindow {
         f.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
                 chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-50, f.getHeight()-80));
-                //chat.getChatText().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-50, f.getHeight()));
                 friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+10,f.getHeight()-80));
                 f.repaint();
-                //System.out.println(f.getHeight() + " "+f.getWidth()+ " "+chat.getWindow().getWidth());
             }
         });
     }
     private void addSendChatClick(){
         chat.getMessageButton().addMouseListener(new MouseAdapter() { 
             public void mousePressed(MouseEvent me) { 
-                if(me.getButton() == 1){
-                    System.out.println(chat.getMessageInput().getText());
-                    chatDao.sendMessage(chat.getMessageInput().getText());
-                    loadPrivateChat();
+                if(chat.getChatLabel().getText() != "Not chatting"){
+                    if(me.getButton() == 1 && privateMode){
+                        chatDao.sendMessage(chat.getMessageInput().getText());
+                        loadPrivateChat();
+                        chat.getMessageInput().setText("");
+                    }
+                    else if(me.getButton() == 1 && !privateMode){
+                        chatDao.sendMessage(chat.getMessageInput().getText());
+                        List<String> messages = chatDao.getPublicChat();
+                        for(int i = 0; i < messages.size(); i++){
+                            chat.getChatText().append(messages.get(i));
+                        }
+                        chatDao.setReciever(chatDao.getChatUser());
+                        chat.getMessageInput().setText("");
+                    }
                 }
             } 
         });
@@ -104,7 +112,7 @@ public class MainWindow {
                     }
                     else if(privateMode == true && me.getButton() == 1){
                         chatDao.setReciever(me.getComponent().getName());
-                        chatDao.setPrivateChat(me.getComponent().getName());
+                        loadPrivateChat();
                     }
                 } 
             });
@@ -129,6 +137,8 @@ public class MainWindow {
                 for(int i = 0; i < messages.size(); i++){
                     chat.getChatText().append(messages.get(i));
                 }
+                chatDao.setReciever(chatDao.getChatUser());
+                
             }
             privateButton.setSelected(false);
             privateMode = false;

@@ -23,14 +23,13 @@ public class ChatDAOImp implements ChatDAO{
     private String chattingWith = "";
     private List<Friend> friends;
     private List<Message> msgs;
-    private Chat currentChat;
-    public boolean privateMode = false;
+    private Chat allChats = new Chat(chatUser);
+    private boolean privateMode = false;
+    private LogReader logReader;
+    private FriendsReader friendReader;
     public ChatDAOImp(){
-        FriendsReader loadFriends = new FriendsReader();
-        friends = loadFriends.getFriendList();
-        
-        LogReader defaultLog = new LogReader(chatUser);
-        msgs = defaultLog.getFormatted();
+        friendReader = new FriendsReader();
+        friends = friendReader.getFriendList();
     }
     @Override
     public List<Friend> getAllFriends(){
@@ -57,9 +56,8 @@ public class ChatDAOImp implements ChatDAO{
 
     @Override
     public List<String> getPublicChat() {
-        currentChat = new Chat(chatUser);
         List<String> returnList = new ArrayList<>();
-        msgs = currentChat.getMessages();
+        msgs = allChats.getMessages();
         for(int i = 0; i < msgs.size(); i++){
             Friend author = msgs.get(i).getAuthor();
             String newString = "<"+author.getNick()+author.getTag()+"> "+msgs.get(i).getMessage()+"\n";
@@ -85,15 +83,17 @@ public class ChatDAOImp implements ChatDAO{
 
     @Override
     public void setPrivateChat(String nick) {
-        currentChat = new Chat(chatUser);
-        msgs = currentChat.getMessages(nick);
+        msgs = allChats.getMessages(nick);
     }
     @Override
     public List<String> getPrivateChat(String nick) { 
         List<String> returnList = new ArrayList<>();
+        msgs = allChats.getMessages(nick);
         for(int i = 0; i < msgs.size(); i++){
             Friend author = msgs.get(i).getAuthor();
-            String newString = "<"+author.getNick()+author.getTag()+"> "+msgs.get(i).getMessage()+"\n";
+            String newString = "";
+            if(author.getNick().length() > 0)
+               newString = "<"+author.getNick()+author.getTag()+"> "+msgs.get(i).getMessage()+"\n";
             returnList.add(newString);
         }
         return returnList;
@@ -104,11 +104,13 @@ public class ChatDAOImp implements ChatDAO{
     }
     @Override
     public void sendMessage(String msg){
+        if(msg.length() > 0){
         Friend currentFriend = new Friend();
         currentFriend.setNick(chatUser);
         Message newMsg = new Message(currentFriend, msg);
         new LogWriter(newMsg);
         msgs.add(newMsg);
+        }
     }
     @Override
     public void setReciever(String newReciever){
@@ -117,5 +119,9 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public String getReceiever(){
         return chattingWith;
+    }
+    @Override
+    public String getChatUser(){
+        return chatUser;
     }
 }

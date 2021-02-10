@@ -5,22 +5,26 @@
  */
 package labb3;
 
-import labb3.DataStructures.Friend;
-import labb3.DataStructures.Message;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import labb3.DataStructures.Friend;
+import labb3.DataStructures.Message;
 
 
 /**
- *
- * @author André
+ * @author André Nordlund
+ * @date 2021-02-10
+ * @course name Java 2
+ * @Lab number 3
  */
 public class LogReader {
-    private List<Message> lines = new ArrayList<>();
-    private List<String> orgLines = new ArrayList<>();
+    private List<Message> loadedMsgs = new ArrayList<Message>();
     private String workingPath;
-    public LogReader(String fileUrl){
+    private Map<String, List<Message>> userChats = new HashMap<String, List<Message>>(); 
+    public void readFile(String fileUrl){
         try
         {  
             workingPath = System.getProperty("user.dir");
@@ -39,28 +43,30 @@ public class LogReader {
                 else{
                     username = line.substring(1, line.indexOf('>'));
                 }
+                Friend currentFriend = new Friend();
+                currentFriend.setNick(username);
+                currentFriend.setTag(tag);
                 
-                Friend newFriend = new Friend();
-                newFriend.setNick(username);
-                newFriend.setTag(tag);
-                Message newMsg = new Message(newFriend, text);
-                lines.add(newMsg);
-                orgLines.add(line);
+                Message currentMsg = new Message(currentFriend, text);
+                loadedMsgs.add(currentMsg);
             }
+            userChats.put(fileUrl, loadedMsgs); //Saves the chat to the given username
+            loadedMsgs = new ArrayList<Message>();
         }
         catch (FileNotFoundException ex) 
         {
-            orgLines.add("Not found");
+            Friend currentFriend = new Friend();
+            Message currentMsg = new Message(currentFriend, "");
+            loadedMsgs.add(currentMsg);
+            userChats.put(fileUrl, loadedMsgs);
+            loadedMsgs = new ArrayList<Message>();
         } 
         catch (IOException ex) 
         {
             System.out.println(ex);
         }
     }
-    public List<Message> getFormatted(){
-        return lines;
-    }
-    public List<String> getUnformatted(){
-        return orgLines;
+    public Map<String, List<Message>> getChats(){
+        return userChats;
     }
 }
