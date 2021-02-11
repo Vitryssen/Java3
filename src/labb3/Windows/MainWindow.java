@@ -108,15 +108,25 @@ public class MainWindow {
         String attr = (String)JOptionPane.showInputDialog(null, "What attribute do you want to change?", 
                 "Change attribute for "+user, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
         if(attr != null){
+            if(!chatDao.isChatLoaded(user)){
+                JOptionPane.showMessageDialog(f,"Please load the chat atleast once before changing nick","Alert",JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             String value = JOptionPane.showInputDialog(null, attr+": ", 
                     "New value for "+attr, JOptionPane.INFORMATION_MESSAGE);
+            if(value.length() == 0)
+                return;
             chatDao.changeFriendAttr(user, attr, value);
-            if(attr == "Nickname"){
+            if("Nickname".equals(attr)){
                 friends.getNamePanel().removeAll();
                 populateFriendlist();
                 addClickListiner();
                 friends.getNamePanel().revalidate();
-                chat.getChatLabel().setText("Chatting with "+chatDao.getAllFriends().get(chatDao.getFriend(value)).getNick()+chatDao.getAllFriends().get(chatDao.getFriend(value)).getTag());
+                if(privateMode){
+                    chatDao.setReciever(value);
+                    loadPrivateChat();
+                    chat.getChatLabel().setText("Chatting with "+chatDao.getAllFriends().get(chatDao.getFriend(value)).getNick()+chatDao.getAllFriends().get(chatDao.getFriend(value)).getTag());
+                }
             }
         }
     }
@@ -148,6 +158,7 @@ public class MainWindow {
         }
     }
     private void loadPrivateChat(){
+        chat.getChatText().setText("");
         List<String> history = chatDao.getPrivateChat(chatDao.getReceiever());
         chatDao.setReciever(chatDao.getReceiever());
         for(int i = 0; i < history.size(); i++){

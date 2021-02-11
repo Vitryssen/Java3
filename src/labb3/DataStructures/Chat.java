@@ -22,10 +22,10 @@ public class Chat {
       this.author = nickname;
     }
     public void changeChatNick(String oldNick, String newNick){
-        System.out.println("Old chat for "+oldNick+" and new chat for "+newNick);
-        System.out.println(userChats.get(oldNick));
-        userChats.put( newNick, userChats.remove( oldNick ) );
-        System.out.println(userChats.get(newNick));
+        if(userChats.containsKey(oldNick)){
+            userChats.put( newNick, userChats.remove( oldNick ) );
+            changeNickInChat(oldNick, newNick);
+        }
     }
     public void addMessage(Message msg){
         new LogWriter(msg); //Fix better 
@@ -48,10 +48,19 @@ public class Chat {
         else{
             LogReader reader = new LogReader();
             reader.readFile(privateName);
-            System.out.println(reader.getChats().get(privateName));
             userChats.put(privateName, reader.getChats().get(privateName));
             return userChats.get(privateName);
         }
+    }
+    private void changeNickInChat(String oldNick, String newNick){
+        List<Message> oldMsgs = userChats.get(newNick);
+        for(int i = 0; i < oldMsgs.size(); i++){
+            if(oldMsgs.get(i).getAuthor().getNick().equals(oldNick)){                
+                oldMsgs.get(i).getAuthor().setNick(newNick);
+            }
+        }
+        userChats.remove(newNick);
+        userChats.put(newNick, oldMsgs);
     }
     public boolean chatExists(String nickname){
         return userChats.containsKey(nickname);

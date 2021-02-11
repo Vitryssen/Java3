@@ -34,13 +34,11 @@ public class LogReader {
             String[] pathnames = file.list();
             String[] orgs = file.list();
             fileUrl += ".log";
-            System.out.println("Searching for "+fileUrl);
             for(int i = 0; i < pathnames.length;i++){
                 if(pathnames[i].indexOf('[') != -1){ //Formatt all files in dir to remove tags
                     pathnames[i] = pathnames[i].substring(0, pathnames[i].indexOf('['))+pathnames[i].substring(pathnames[i].indexOf(']')+1, pathnames[i].length());
                 }
                 if(fileUrl.equals(pathnames[i])){ //If formatted filename matches with input, open the unformatted file
-                    System.out.println("Found file "+orgs[i]);
                     file=new File(this.workingPath+"\\logs\\"+orgs[i]);
                 }
             }
@@ -65,7 +63,6 @@ public class LogReader {
                 Message currentMsg = new Message(currentFriend, text);
                 loadedMsgs.add(currentMsg);
             }
-            System.out.println(fileUrl+" saving chat");
             userChats.put(orgName, loadedMsgs); //Saves the chat to the given username
             loadedMsgs = new ArrayList<Message>();
         }

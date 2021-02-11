@@ -24,4 +24,5 @@ public interface ChatDAO {
     public void setReciever(String newReciever);
     public String getReceiever();
     public String getChatUser();
+    public boolean isChatLoaded(String nick);
 }

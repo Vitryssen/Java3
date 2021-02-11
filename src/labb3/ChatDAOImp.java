@@ -37,9 +37,7 @@ public class ChatDAOImp implements ChatDAO{
     }
     @Override
     public int getFriend(String name){
-        System.out.println("searching for "+name);
         for(int i = 0; i < friends.size(); i++){
-            System.out.println(friends.get(i).getNick());
             if(friends.get(i).getNick().equals(name)){
                 return i;
             }
@@ -49,11 +47,13 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public void changeFriendAttr(String user, String attribute, String newValue){
         int friendIndex = getFriend(user);
-        System.out.println("index "+friendIndex);
         if(friendIndex != -1){
-            allChats.changeChatNick(user, newValue);
             switch(attribute) {
-                case "Nickname" -> friends.get(friendIndex).setNick(newValue);
+                case "Nickname" -> {
+                    if(allChats.chatExists(friends.get(friendIndex).getNick()))
+                        allChats.changeChatNick(user, newValue);
+                    friends.get(friendIndex).setNick(newValue);
+                }
                 case "Fullname" -> friends.get(friendIndex).setName(newValue);
                 case "Image" -> friends.get(friendIndex).setImage(newValue);
               }
@@ -88,7 +88,6 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public List<String> getPrivateChat(String nick) { 
         List<String> returnList = new ArrayList<>();
-        System.out.println("getting for "+nick);
         msgs = allChats.getMessages(nick);
         for(int i = 0; i < msgs.size(); i++){
             Friend author = msgs.get(i).getAuthor();
@@ -106,11 +105,11 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public void sendMessage(String msg){
         if(msg.length() > 0){
-        Friend currentFriend = new Friend();
-        currentFriend.setNick(chatUser);
-        Message newMsg = new Message(currentFriend, msg);
-        new LogWriter(newMsg);
-        msgs.add(newMsg);
+            Friend currentFriend = new Friend();
+            currentFriend.setNick(chatUser);
+            Message newMsg = new Message(currentFriend, msg);
+            new LogWriter(newMsg);
+            msgs.add(newMsg);
         }
     }
     @Override
@@ -124,5 +123,9 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public String getChatUser(){
         return chatUser;
+    }
+    @Override
+    public boolean isChatLoaded(String nick){
+        return allChats.chatExists(nick);
     }
 }
