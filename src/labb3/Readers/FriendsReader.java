@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Readers;
+package labb3.Readers;
 
 import labb3.DataStructures.Friend;
 import java.io.BufferedReader;
