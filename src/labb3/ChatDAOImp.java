@@ -6,7 +6,6 @@
 package labb3;
 
 import labb3.Readers.FriendsReader;
-import labb3.Readers.LogReader;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;

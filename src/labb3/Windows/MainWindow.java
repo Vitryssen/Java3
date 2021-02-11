@@ -6,8 +6,6 @@
 package labb3.Windows;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -17,23 +15,15 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.border.Border;
 import labb3.ChatDAOImp;
 import labb3.DataStructures.Friend;
 import labb3.ChatDAO;
-
-
 import java.awt.Color;
 import java.awt.Dimension;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.SwingConstants;
 /**
  *
  * @author André
