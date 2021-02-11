@@ -104,7 +104,7 @@ public class MainWindow {
         });
     }
     private void popUp(String user){
-        String[] options = {"Nickname","Fullname","Image"};
+        String[] options = {"Fullname","Image"};
         String attr = (String)JOptionPane.showInputDialog(null, "What attribute do you want to change?", 
                 "Change attribute for "+user, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
         if(attr != null){
