@@ -75,7 +75,7 @@ public class LogReader {
             Friend currentFriend = new Friend();
             Message currentMsg = new Message(currentFriend, "");
             loadedMsgs.add(currentMsg);
-            userChats.put(fileUrl, loadedMsgs);
+            userChats.put(orgName, loadedMsgs);
             loadedMsgs = new ArrayList<Message>();
         } 
         catch (IOException ex) 

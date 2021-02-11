@@ -111,11 +111,14 @@ public class MainWindow {
             String value = JOptionPane.showInputDialog(null, attr+": ", 
                     "New value for "+attr, JOptionPane.INFORMATION_MESSAGE);
             chatDao.changeFriendAttr(user, attr, value);
+            if(attr == "Nickname"){
+                friends.getNamePanel().removeAll();
+                populateFriendlist();
+                addClickListiner();
+                friends.getNamePanel().revalidate();
+                chat.getChatLabel().setText("Chatting with "+chatDao.getAllFriends().get(chatDao.getFriend(value)).getNick()+chatDao.getAllFriends().get(chatDao.getFriend(value)).getTag());
+            }
         }
-        friends.getNamePanel().removeAll();
-        populateFriendlist();
-        addClickListiner();
-        friends.getNamePanel().revalidate();
     }
     private void populateFriendlist(){
         for(int i = 0; i < chatDao.getAllFriends().size(); i++){
@@ -135,6 +138,9 @@ public class MainWindow {
                     }
                     else if(privateMode == true && me.getButton() == 1){
                         chatDao.setReciever(me.getComponent().getName());
+                        JLabel labelText = (JLabel) me.getComponent();
+                        chat.getChatLabel().setText("Chatting with "+labelText.getText());
+                        chat.getChatText().setText("");
                         loadPrivateChat();
                     }
                 } 
@@ -143,8 +149,6 @@ public class MainWindow {
     }
     private void loadPrivateChat(){
         List<String> history = chatDao.getPrivateChat(chatDao.getReceiever());
-        chat.getChatText().setText("");
-        chat.getChatLabel().setText("Chatting with "+chatDao.getReceiever());
         chatDao.setReciever(chatDao.getReceiever());
         for(int i = 0; i < history.size(); i++){
             chat.getChatText().append(history.get(i));
