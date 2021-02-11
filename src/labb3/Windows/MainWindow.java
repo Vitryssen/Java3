@@ -112,16 +112,16 @@ public class MainWindow {
                     "New value for "+attr, JOptionPane.INFORMATION_MESSAGE);
             chatDao.changeFriendAttr(user, attr, value);
         }
-        populateFriendlist(); //Delete friend labels before adding new ones
-        
-        //m value
-        //n property
+        friends.getNamePanel().removeAll();
+        populateFriendlist();
+        addClickListiner();
+        friends.getNamePanel().revalidate();
     }
     private void populateFriendlist(){
         for(int i = 0; i < chatDao.getAllFriends().size(); i++){
             Friend currentFriend = chatDao.getAllFriends().get(i);
-            String currentName = currentFriend.getNick()+currentFriend.getTag();
-            JLabel nameLabel = new JLabel(currentName);
+            String currentName = currentFriend.getNick();
+            JLabel nameLabel = new JLabel(currentName+currentFriend.getTag());
             nameLabel.setName(currentName);
             friends.getNamePanel().add(nameLabel, BorderLayout.WEST);
         }

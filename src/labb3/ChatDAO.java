@@ -22,7 +22,6 @@ public interface ChatDAO {
     public void setChatUser(String newUser);
     public void sendMessage(String msg);
     public void setReciever(String newReciever);
-    public void setPrivateMode(boolean newMode);
     public String getReceiever();
     public String getChatUser();
 }

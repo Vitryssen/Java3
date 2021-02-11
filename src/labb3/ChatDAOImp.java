@@ -23,12 +23,10 @@ import labb3.DataStructures.Message;
 public class ChatDAOImp implements ChatDAO{
     private String chatUser = "Eurakarte";
     private String chattingWith = "";
-    private List<Friend> friends;
+    private final List<Friend> friends;
     private List<Message> msgs;
-    private Chat allChats = new Chat(chatUser);
-    private boolean privateMode = false;
-    private LogReader logReader;
-    private FriendsReader friendReader;
+    private final Chat allChats = new Chat(chatUser);
+    private final FriendsReader friendReader;
     public ChatDAOImp(){
         friendReader = new FriendsReader();
         friends = friendReader.getFriendList();
@@ -39,9 +37,10 @@ public class ChatDAOImp implements ChatDAO{
     }
     @Override
     public int getFriend(String name){
+        System.out.println("searching for "+name);
         for(int i = 0; i < friends.size(); i++){
             System.out.println(friends.get(i).getNick());
-            if(friends.get(i).getNick() == name){
+            if(friends.get(i).getNick().equals(name)){
                 return i;
             }
         }
@@ -50,30 +49,22 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public void changeFriendAttr(String user, String attribute, String newValue){
         int friendIndex = getFriend(user);
+        System.out.println("index "+friendIndex);
         if(friendIndex != -1){
+            allChats.changeChatNick(user, newValue);
             switch(attribute) {
-                case "Nickname":
-                    friends.get(friendIndex).setNick(newValue);
-                    break;
-                case "Fullname":
-                    friends.get(friendIndex).setName(newValue);
-                    break;
-                case "Image":
-                    friends.get(friendIndex).setImage(newValue);
-                    break;
+                case "Nickname" -> friends.get(friendIndex).setNick(newValue);
+                case "Fullname" -> friends.get(friendIndex).setName(newValue);
+                case "Image" -> friends.get(friendIndex).setImage(newValue);
               }
         }
-    }
-    @Override
-    public void setPrivateMode(boolean newMode){
-        privateMode = newMode;
     }
     @Override
     public int getLongestNick(){
         int previous = 0;
         for(int i = 0; i < friends.size(); i++){
             //System.out.println(friendList.getFriendList().get(i).getNick());
-            String text = friends.get(i).getNick();
+            String text = friends.get(i).getNick()+friends.get(i).getTag();
             AffineTransform affinetransform = new AffineTransform();     
             FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
             Font font = new Font("Tahoma", Font.PLAIN, 12);
@@ -97,6 +88,7 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public List<String> getPrivateChat(String nick) { 
         List<String> returnList = new ArrayList<>();
+        System.out.println("getting for "+nick);
         msgs = allChats.getMessages(nick);
         for(int i = 0; i < msgs.size(); i++){
             Friend author = msgs.get(i).getAuthor();

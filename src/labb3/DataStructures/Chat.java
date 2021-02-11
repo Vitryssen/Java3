@@ -21,6 +21,12 @@ public class Chat {
     public Chat(String nickname){
       this.author = nickname;
     }
+    public void changeChatNick(String oldNick, String newNick){
+        System.out.println("Old chat for "+oldNick+" and new chat for "+newNick);
+        System.out.println(userChats.get(oldNick));
+        userChats.put( newNick, userChats.remove( oldNick ) );
+        System.out.println(userChats.get(newNick));
+    }
     public void addMessage(Message msg){
         new LogWriter(msg); //Fix better 
     }
@@ -42,6 +48,7 @@ public class Chat {
         else{
             LogReader reader = new LogReader();
             reader.readFile(privateName);
+            System.out.println(reader.getChats().get(privateName));
             userChats.put(privateName, reader.getChats().get(privateName));
             return userChats.get(privateName);
         }
