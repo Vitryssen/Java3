@@ -25,4 +25,5 @@ public interface ChatDAO {
     public String getReceiever();
     public String getChatUser();
     public boolean isChatLoaded(String nick);
+    public void saveChats();
 }

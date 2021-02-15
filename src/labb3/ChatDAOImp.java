@@ -11,6 +11,7 @@ import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import labb3.DataStructures.Chat;
 import labb3.DataStructures.Friend;
 import labb3.DataStructures.Message;
@@ -33,6 +34,19 @@ public class ChatDAOImp implements ChatDAO{
     @Override
     public List<Friend> getAllFriends(){
         return friends;
+    }
+    @Override
+    public void saveChats(){
+        Map<String, List<Message>> chats = allChats.getAllChats();
+        for(String key: chats.keySet()){
+            Friend newFriend = new Friend();
+            newFriend.setNick(chatUser);
+            for(int i = 0; i < friends.size(); i++){
+                if(friends.get(i).getNick().equals(key))
+                    newFriend = friends.get(i);
+            }
+            new LogWriter(newFriend, chats.get(key));
+        }
     }
     @Override
     public int getFriend(String name){
@@ -107,7 +121,6 @@ public class ChatDAOImp implements ChatDAO{
             Friend currentFriend = new Friend();
             currentFriend.setNick(chatUser);
             Message newMsg = new Message(currentFriend, msg);
-            new LogWriter(newMsg);
             msgs.add(newMsg);
         }
     }

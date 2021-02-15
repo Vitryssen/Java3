@@ -21,6 +21,8 @@ import labb3.DataStructures.Friend;
 import labb3.ChatDAO;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -68,6 +70,13 @@ public class MainWindow {
                 chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-50, f.getHeight()-80));
                 friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+10,f.getHeight()-80));
                 f.repaint();
+            }
+        });
+        f.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                chatDao.saveChats();
+                f.dispose();
+                System.exit(0);
             }
         });
     }
