@@ -8,7 +8,7 @@ package labb3.DataStructures;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import Readers.LogReader;
+import labb3.Readers.LogReader;
 import labb3.LogWriter;
 
 /**
