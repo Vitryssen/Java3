@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import labb3.Readers.LogReader;
-import labb3.LogWriter;
 
 /**
  *
@@ -21,8 +20,14 @@ public class Chat {
     public Chat(String nickname){
       this.author = nickname;
     }
-    public void addMessage(Message msg){
-        new LogWriter(msg); //Fix better 
+    public Map<String, List<Message>> getAllChats(){
+        return userChats;
+    }
+    public void changeChatNick(String oldNick, String newNick){
+        if(userChats.containsKey(oldNick)){
+            userChats.put( newNick, userChats.remove( oldNick ) );
+            changeNickInChat(oldNick, newNick);
+        }
     }
     public List<Message> getMessages(){
         if(userChats.containsKey(author)){
@@ -45,6 +50,16 @@ public class Chat {
             userChats.put(privateName, reader.getChats().get(privateName));
             return userChats.get(privateName);
         }
+    }
+    private void changeNickInChat(String oldNick, String newNick){
+        List<Message> oldMsgs = userChats.get(newNick);
+        for(int i = 0; i < oldMsgs.size(); i++){
+            if(oldMsgs.get(i).getAuthor().getNick().equals(oldNick)){                
+                oldMsgs.get(i).getAuthor().setNick(newNick);
+            }
+        }
+        userChats.remove(newNick);
+        userChats.put(newNick, oldMsgs);
     }
     public boolean chatExists(String nickname){
         return userChats.containsKey(nickname);
