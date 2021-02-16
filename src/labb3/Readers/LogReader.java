@@ -21,9 +21,9 @@ import labb3.DataStructures.Message;
  * @Lab number 3
  */
 public class LogReader {
-    private List<Message> loadedMsgs = new ArrayList<Message>();
+    private List<Message> loadedMsgs = new ArrayList<>();
     private String workingPath;
-    private Map<String, List<Message>> userChats = new HashMap<String, List<Message>>(); 
+    private final Map<String, List<Message>> userChats = new HashMap<>(); 
     public void readFile(String fileUrl){
         String orgName = fileUrl;
         try
