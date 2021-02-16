@@ -36,6 +36,10 @@ public class ChatDAOImp implements ChatDAO{
         return friends;
     }
     @Override
+    public void saveFriendList(){
+        friendReader.saveFriendList(friends);
+    }
+    @Override
     public void saveChats(){
         Map<String, List<Message>> chats = allChats.getAllChats();
         for(String key: chats.keySet()){

@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -49,6 +50,8 @@ public class FriendsReader {
                 friends.add(currentFriend);
             }
             Collections.sort(friends, new Sortbynick());
+            fr.close();
+            br.close();
         }
         catch (FileNotFoundException ex) 
         {
@@ -61,5 +64,27 @@ public class FriendsReader {
     }
     public List<Friend> getFriendList(){
         return friends;
+    }
+    public void saveFriendList(List<Friend> friends){
+        File file=new File(this.workingPath+"\\logs\\friends.list");
+        try {
+            if (file.createNewFile()){
+                System.out.println("File is created!");
+            }
+            else{
+                System.out.println("File already exists.");
+            }
+            FileWriter fr = new FileWriter(file, false);
+            
+            for(int i = 0; i < friends.size(); i++){
+                fr.write("<"+friends.get(i).getNick()+friends.get(i).getTag()+">\n");
+                fr.write("[FULLNAME]"+friends.get(i).getName()+"\n");
+                fr.write("[LASTIP]"+friends.get(i).getIp()+"\n");
+                fr.write("[IMAGE]"+friends.get(i).getImage()+"\n");
+            }
+            fr.close();
+        } catch (IOException ex) {
+            System.out.println(ex);
+        }
     }
 }

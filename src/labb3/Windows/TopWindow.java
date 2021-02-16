@@ -27,12 +27,13 @@ import javax.swing.border.Border;
 public class TopWindow extends ComponentAdapter{
     private JPanel showPanel = new JPanel();
     private JPanel top = new JPanel(new GridBagLayout());
-    public JButton showButton = new JButton("Show");
-    public JButton fileButton = new JButton("File");
-    public GridBagConstraints c = new GridBagConstraints();
+    private JButton showButton = new JButton("Show");
+    private JButton fileButton = new JButton("File");
+    private GridBagConstraints c = new GridBagConstraints();
     private JPanel exitPanel = new JPanel();
     private JCheckBox privateButton = new JCheckBox("Private chat");
     private JCheckBox publicButton = new JCheckBox("Public chat");
+    private JButton exitButton = new JButton("Exit");
     public TopWindow(){
         Border blackline;
         blackline = BorderFactory.createLineBorder(Color.black);
@@ -53,8 +54,6 @@ public class TopWindow extends ComponentAdapter{
         c.gridy = 0;       //third row
         //showButton.addActionListener(actionPerformed());
         top.add(showButton, c);
-
-        JButton exitButton = new JButton("Exit");
 
         //Change show and exitPanel to place and resize
         //correctly with the file and show buttons
@@ -114,5 +113,8 @@ public class TopWindow extends ComponentAdapter{
     }
     public JCheckBox getPrivateButton(){
         return privateButton;
+    }
+    public JButton getExitButton(){
+        return exitButton;
     }
 }

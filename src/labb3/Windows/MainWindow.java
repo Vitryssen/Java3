@@ -55,6 +55,7 @@ public class MainWindow {
         addPublicClick();
         addPrivateClick();
         addSendChatClick();
+        exitButtonEvent();
         //----------------------------------------
         JPanel bottom = new JPanel();
         bottom.add(chat.getWindow(), BorderLayout.WEST);
@@ -67,17 +68,29 @@ public class MainWindow {
         f.setVisible(true); 
         f.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
-                chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-50, f.getHeight()-80));
-                friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+10,f.getHeight()-80));
-                f.repaint();
+                resize();
             }
         });
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                chatDao.saveChats();
-                f.dispose();
-                System.exit(0);
+                exit();
             }
+        });
+    }
+    private void exit(){
+        chatDao.saveChats();
+        chatDao.saveFriendList();
+        f.dispose();
+        System.exit(0);
+    }
+    public void resize(){
+        chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-50, f.getHeight()-80));
+        friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+10,f.getHeight()-80));
+        f.repaint();
+    }
+    private void exitButtonEvent(){
+        top.getExitButton().addActionListener((ActionEvent e) -> {
+            exit();
         });
     }
     private void addSendChatClick(){
@@ -103,14 +116,14 @@ public class MainWindow {
         });
     }
     private void popUp(String user){
-        String[] options = {"Fullname","Image"};
+        String[] options = {"Fullname","Image", "Last ip"};
         String attr = (String)JOptionPane.showInputDialog(null, "What attribute do you want to change?", 
                 "Change attribute for "+user, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
         if(attr != null){
-            if(!chatDao.isChatLoaded(user)){
+            /*if(!chatDao.isChatLoaded(user)){
                 JOptionPane.showMessageDialog(f,"Please load the chat atleast once before changing nick","Alert",JOptionPane.WARNING_MESSAGE);
                 return;
-            }
+            }*/
             String value = JOptionPane.showInputDialog(null, attr+": ", 
                     "New value for "+attr, JOptionPane.INFORMATION_MESSAGE);
             if(value.length() == 0)
@@ -141,7 +154,7 @@ public class MainWindow {
     private void addClickListiner(){
         for(int i = 0; i < friends.getNamePanel().getComponentCount(); i++){
             friends.getNamePanel().getComponent(i).addMouseListener(new MouseAdapter() { 
-                public void mousePressed(MouseEvent me) { 
+                public void mousePressed(MouseEvent me) {
                     if(me.getButton() == 3){
                         popUp(me.getComponent().getName());
                     }

@@ -15,14 +15,12 @@ public class Friend {
     private String ip;
     private String image;
     private String tag;
-    private String lastIP;
-    public Friend(String newNick, String newName, String newIp, String newImage, String newTag, String newIP){
+    public Friend(String newNick, String newName, String newIp, String newImage, String newTag){
         this.nickname = newNick;
         this.fullname = newName;
         this.ip = newIp;
         this.image = newImage;
         this.tag = newTag;
-        this.lastIP = newIP;
     }
     public Friend(){
         this.nickname = "";
@@ -30,7 +28,6 @@ public class Friend {
         this.ip = "";
         this.image = "";
         this.tag = "";
-        this.lastIP = "";
     }
     //Setters
     public void setNick(String newNick){
@@ -47,9 +44,6 @@ public class Friend {
     }
     public void setTag(String newTag){
         this.tag = newTag;
-    }
-    public void setIP(String newIP){
-        this.lastIP = newIP;
     }
     //Getters
     public String getNick(){

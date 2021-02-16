@@ -26,4 +26,5 @@ public interface ChatDAO {
     public String getChatUser();
     public boolean isChatLoaded(String nick);
     public void saveChats();
+    public void saveFriendList();
 }
