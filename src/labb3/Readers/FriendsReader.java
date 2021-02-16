@@ -41,12 +41,12 @@ public class FriendsReader {
                         currentFriend.setTag(line.substring(line.indexOf('['),line.indexOf(']')+1));
                     }
                 }
-                line=br.readLine();
-                currentFriend.setName(line.substring(line.indexOf(']')+1));
-                line=br.readLine();
-                currentFriend.setIp(line.substring(line.indexOf(']')+1));
-                line=br.readLine();
-                currentFriend.setImage(line.substring(line.indexOf(']')+1));
+                if((line=br.readLine()) != null)
+                    currentFriend.setName(line.substring(line.indexOf(']')+1));
+                if((line=br.readLine()) != null)
+                    currentFriend.setIp(line.substring(line.indexOf(']')+1));
+                if((line=br.readLine()) != null)
+                    currentFriend.setImage(line.substring(line.indexOf(']')+1));
                 friends.add(currentFriend);
             }
             Collections.sort(friends, new Sortbynick());

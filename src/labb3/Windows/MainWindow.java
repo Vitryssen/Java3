@@ -23,9 +23,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 /**
  *
  * @author André
@@ -40,7 +43,7 @@ public class MainWindow {
     private JCheckBox publicButton = top.getPublicButton();
     private JCheckBox privateButton = top.getPrivateButton();
     public MainWindow(){
-        f=new JFrame();  
+        f=new JFrame("Eurakarte");  
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(top.getWindow(), BorderLayout.NORTH);
         //Set bounds for panel with exit and chat buttons
@@ -84,8 +87,8 @@ public class MainWindow {
         System.exit(0);
     }
     public void resize(){
-        chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-50, f.getHeight()-80));
-        friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+10,f.getHeight()-80));
+        chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-60, f.getHeight()-80));
+        friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+30,f.getHeight()-80));
         f.repaint();
     }
     private void exitButtonEvent(){
@@ -148,6 +151,7 @@ public class MainWindow {
             String currentName = currentFriend.getNick();
             JLabel nameLabel = new JLabel(currentName+currentFriend.getTag());
             nameLabel.setName(currentName);
+            friends.getNamePanel().setLayout(new BoxLayout(friends.getNamePanel(), BoxLayout.Y_AXIS));
             friends.getNamePanel().add(nameLabel, BorderLayout.WEST);
         }
     }
@@ -162,7 +166,6 @@ public class MainWindow {
                         chatDao.setReciever(me.getComponent().getName());
                         JLabel labelText = (JLabel) me.getComponent();
                         chat.getChatLabel().setText("Chatting with "+labelText.getText());
-                        chat.getChatText().setText("");
                         loadPrivateChat();
                     }
                 } 
