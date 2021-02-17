@@ -23,9 +23,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.BoxLayout;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
 /**
  *
  * @author André
@@ -40,7 +43,7 @@ public class MainWindow {
     private JCheckBox publicButton = top.getPublicButton();
     private JCheckBox privateButton = top.getPrivateButton();
     public MainWindow(){
-        f=new JFrame();  
+        f=new JFrame("Eurakarte");  
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.add(top.getWindow(), BorderLayout.NORTH);
         //Set bounds for panel with exit and chat buttons
@@ -55,6 +58,7 @@ public class MainWindow {
         addPublicClick();
         addPrivateClick();
         addSendChatClick();
+        exitButtonEvent();
         //----------------------------------------
         JPanel bottom = new JPanel();
         bottom.add(chat.getWindow(), BorderLayout.WEST);
@@ -67,17 +71,29 @@ public class MainWindow {
         f.setVisible(true); 
         f.addComponentListener(new ComponentAdapter() {
             public void componentResized(ComponentEvent componentEvent) {
-                chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-50, f.getHeight()-80));
-                friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+10,f.getHeight()-80));
-                f.repaint();
+                resize();
             }
         });
         f.addWindowListener(new WindowAdapter() {
             public void windowClosing(WindowEvent e) {
-                chatDao.saveChats();
-                f.dispose();
-                System.exit(0);
+                exit();
             }
+        });
+    }
+    private void exit(){
+        chatDao.saveChats();
+        chatDao.saveFriendList();
+        f.dispose();
+        System.exit(0);
+    }
+    public void resize(){
+        chat.getWindow().setPreferredSize(new Dimension(f.getWidth()-chatDao.getLongestNick()-60, f.getHeight()-80));
+        friends.getWindow().setPreferredSize(new Dimension(chatDao.getLongestNick()+30,f.getHeight()-80));
+        f.repaint();
+    }
+    private void exitButtonEvent(){
+        top.getExitButton().addActionListener((ActionEvent e) -> {
+            exit();
         });
     }
     private void addSendChatClick(){
@@ -103,14 +119,14 @@ public class MainWindow {
         });
     }
     private void popUp(String user){
-        String[] options = {"Fullname","Image"};
+        String[] options = {"Fullname","Image", "Last ip"};
         String attr = (String)JOptionPane.showInputDialog(null, "What attribute do you want to change?", 
                 "Change attribute for "+user, JOptionPane.QUESTION_MESSAGE, null, options, options[2]);
         if(attr != null){
-            if(!chatDao.isChatLoaded(user)){
+            /*if(!chatDao.isChatLoaded(user)){
                 JOptionPane.showMessageDialog(f,"Please load the chat atleast once before changing nick","Alert",JOptionPane.WARNING_MESSAGE);
                 return;
-            }
+            }*/
             String value = JOptionPane.showInputDialog(null, attr+": ", 
                     "New value for "+attr, JOptionPane.INFORMATION_MESSAGE);
             if(value.length() == 0)
@@ -135,13 +151,14 @@ public class MainWindow {
             String currentName = currentFriend.getNick();
             JLabel nameLabel = new JLabel(currentName+currentFriend.getTag());
             nameLabel.setName(currentName);
+            friends.getNamePanel().setLayout(new BoxLayout(friends.getNamePanel(), BoxLayout.Y_AXIS));
             friends.getNamePanel().add(nameLabel, BorderLayout.WEST);
         }
     }
     private void addClickListiner(){
         for(int i = 0; i < friends.getNamePanel().getComponentCount(); i++){
             friends.getNamePanel().getComponent(i).addMouseListener(new MouseAdapter() { 
-                public void mousePressed(MouseEvent me) { 
+                public void mousePressed(MouseEvent me) {
                     if(me.getButton() == 3){
                         popUp(me.getComponent().getName());
                     }
@@ -149,7 +166,6 @@ public class MainWindow {
                         chatDao.setReciever(me.getComponent().getName());
                         JLabel labelText = (JLabel) me.getComponent();
                         chat.getChatLabel().setText("Chatting with "+labelText.getText());
-                        chat.getChatText().setText("");
                         loadPrivateChat();
                     }
                 } 
